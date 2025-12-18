@@ -1,0 +1,144 @@
+{% include 'base3.html' %}
+{% load static %}
+
+<body>
+<main id="main" class="main">
+
+<section class="section">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card bg-light">
+        <div class="card-body py-4">
+
+<section class="main-sec">
+
+{% if messages %}
+  <div class="container mt-3">
+    {% for message in messages %}
+      <div class="alert alert-danger {{ message.tags }} alert-dismissible fade show" role="alert">
+        <h5 class="text-center">{{ message }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<div class="container">
+  <div class="row form-div">
+
+    <h3>Add Breeding Record</h3>
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <div class="row">
+
+        <!-- Male Cattle -->
+        <div class="col-lg-3">
+          <label class="form-label fw-bold">Male Cattle (Bull)</label>
+          <select name="male_cattle" class="form-control border-0 shadow-sm py-3 rounded-0" required>
+            <option value="">Select Male</option>
+            {% for female in female_cattles %}
+              <option value="{{ female.id }}">{{ female.name }} ({{ female.batch.name }})</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Female Cattle -->
+        <div class="col-lg-3">
+          <label class="form-label fw-bold">Female Cattle (Cow)</label>
+          <select name="female_cattle" class="form-control border-0 shadow-sm py-3 rounded-0" required>
+            <option value="">Select Female</option>
+            {% for female in female_cattles %}
+              <option value="{{ female.id }}">{{ female.name }} ({{ female.batch.name }})</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Breeding Date -->
+        <div class="col-lg-3">
+          <label class="form-label fw-bold">Breeding Date</label>
+          <input type="date" name="breeding_date"
+                 class="form-control border-0 shadow-sm py-3 rounded-0" required>
+        </div>
+
+        <!-- Expected Delivery -->
+        <div class="col-lg-3">
+          <label class="form-label fw-bold">Expected Delivery Date</label>
+          <input type="date" name="expected_delivery_date" id="expected_delivery"
+                 class="form-control border-0 shadow-sm py-3 rounded-0">
+        </div>
+
+      </div>
+
+      <div class="row mt-3">
+        <!-- Warning -->
+        <div class="col-lg-8">
+          <div id="warning_msg"
+               class="mt-3 text-danger fw-bold"
+               style="display:none;">
+            ⚠ Delivery Date is near!
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Notes -->
+      <div class="row mt-3">
+        <div class="col-lg-12">
+          <label class="form-label fw-bold">Notes</label>
+          <textarea name="notes" rows="4"
+                    class="form-control border-0 shadow-sm rounded-0"></textarea>
+        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <button class="btn btn-success px-4" type="submit">Save</button>
+        <a class="btn btn-primary px-4" href="#">View</a>
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+</section>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="copyright">
+    © Copyright <strong>J N Roadlines LLP</strong> All Rights Reserved
+  </div>
+  <div class="credits">
+    Designed by <a href="#"><strong>JTECH VENTURES</strong></a>
+  </div>
+</footer>
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+  <i class="bi bi-arrow-up-short"></i>
+</a>
+
+<script>
+document.getElementById("expected_delivery").addEventListener("change", function() {
+    let selected = new Date(this.value);
+    let today = new Date();
+
+    let diffTime = selected - today;
+    let diffDays = diffTime / (1000 * 3600 * 24);
+
+    if (diffDays <= 7 && diffDays >= 0) {
+        document.getElementById("warning_msg").style.display = "block";
+    } else {
+        document.getElementById("warning_msg").style.display = "none";
+    }
+});
+</script>
+
+</body>

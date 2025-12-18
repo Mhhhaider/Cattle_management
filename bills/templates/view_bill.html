@@ -1,0 +1,89 @@
+{% include 'Dashboard/base.html' %}
+{% load static %}
+
+<body>
+  <main id="main" class="main">
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card bg-light shadow-sm">
+            <div class="card-body py-4">
+
+              <div class="container">
+                <img
+            src="{% static '/images/logo.webp' %}"
+            alt="My image"
+           style="width:150px;"
+        />
+                <div class="text-end mb-3">
+                <a href="{% url 'download_bill_pdf' bill.id %}" 
+                class="btn btn-primary px-4">
+                Download PDF
+                </a>
+               </div>
+
+
+                <div class="row mb-3 mt-4">
+                  <div class="col-lg-6">
+                    <h5 class="fw-bold">Bill #{{ bill.id }}</h5>
+                    <h5><strong>Customer:</strong> {{ bill.customer.name }}</h5>
+                  </div>
+                  <div class="col-lg-6 text-lg-end">
+                    <h5><strong>Date:</strong> {{ bill.date }}</h5>
+                  </div>
+                </div>
+
+                <!-- Bill Items Table -->
+                <div class="table-responsive">
+                  <table class="table table-bordered table-striped align-middle">
+                    <thead class="table-dark">
+                      <tr>
+                        <th>Sr No</th>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for item in bill.billitem_set.all %}
+                      <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ item.item.name }}</td>
+                        <td>{{ item.quantity }} {{ item.item.unit }}</td>
+                        <td>₹{{ item.item.price }}</td>
+                        <td>₹{{ item.total_price }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="text-end mt-3">
+                  <h4 class="fw-bold">Total Amount: ₹{{ bill.total_amount|floatformat:2 }}</h4>
+
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong>J N Roadlines LLP</strong> All Rights Reserved
+    </div>
+    <div class="credits">
+      Designed by <a href="#"><strong>JTECH VENTURES</strong></a>
+    </div>
+  </footer>
+
+</body>

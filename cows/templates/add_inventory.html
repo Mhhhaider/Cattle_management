@@ -1,0 +1,191 @@
+{% include 'Dashboard/base.html' %}
+{% load static %}
+
+<body>
+<main id="main" class="main">
+
+<section class="section">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card bg-light">
+        <div class="card-body py-4">
+
+<section class="main-sec">
+
+{% if messages %}
+  <div class="container mt-3">
+    {% for message in messages %}
+      <div class="alert alert-danger {{ message.tags }} alert-dismissible fade show" role="alert">
+        <h5 class="text-center">{{ message }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<div class="container">
+  <div class="row form-div">
+
+    <h3>Add Batch Inventory Record</h3>
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <div class="row">
+
+        <!-- Cattle -->
+        <div class="col-lg-4">
+          <label class="form-label fw-bold">Cattle</label>
+          <select name="cattle" class="form-control border-0 shadow-sm py-3 rounded-0" required>
+            <option value="">Select Cattle</option>
+            {% for c in cattles %}
+              <option value="{{ c.id }}">{{ c.name }} ({{ c.batch.name }})</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Batch No -->
+        <div class="col-lg-4">
+          <label class="form-label fw-bold">Batch No</label>
+          <select name="batch_no" class="form-control border-0 shadow-sm py-3 rounded-0" required>
+            <option value="">Select Batch</option>
+            {% for c in cattles %}
+              <option value="{{ c.batch }}">{{ c.batch }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Purchase Date -->
+        <div class="col-lg-4">
+          <label class="form-label fw-bold">Purchase Date</label>
+          <input type="date" name="purchase_date" class="form-control border-0 shadow-sm py-3 rounded-0">
+        </div>
+
+        <!-- Inward Date -->
+        <div class="col-lg-4">
+          <label class="form-label fw-bold">Inward Date</label>
+          <input type="date" name="inward_date" value="{{ today }}" class="form-control border-0 shadow-sm py-3 rounded-0">
+        </div>
+
+        <!-- Convincing Date -->
+        <div class="col-lg-4">
+          <label class="form-label fw-bold">Convincing Date</label>
+          <input type="date" name="convincing_date" class="form-control border-0 shadow-sm py-3 rounded-0">
+        </div>
+
+        <!-- Result -->
+        <div class="col-lg-4">
+          <label class="form-label fw-bold">Result</label>
+          <input type="text" name="result" class="form-control border-0 shadow-sm py-3 rounded-0">
+        </div>
+
+        <!-- Milk Day 0 -->
+        <div class="col-lg-4">
+          <label class="form-label fw-bold">Milk on Day 0 (L)</label>
+          <input type="number" step="0.01" value="0.00" name="milk_day_0"  class="form-control border-0 shadow-sm py-3 rounded-0">
+        </div>
+
+        <!-- Milk Day 15 -->
+        <div class="col-lg-4">
+          <label class="form-label fw-bold">Milk after 15 Days (L)</label>
+          <input type="number" step="0.01" value="0.00" name="milk_day_15" class="form-control border-0 shadow-sm py-3 rounded-0">
+        </div>
+
+        <!-- Milk Day 30 -->
+        <div class="col-lg-4">
+          <label class="form-label fw-bold">Milk after 30 Days (L)</label>
+          <input type="number" step="0.01" value="0.00" name="milk_day_30" class="form-control border-0 shadow-sm py-3 rounded-0">
+        </div>
+
+        <!-- Milk Day 60 -->
+        <div class="col-lg-4">
+          <label class="form-label fw-bold">Milk after 60 Days (L)</label>
+          <input type="number" step="0.01" value="0.00" name="milk_day_60" class="form-control border-0 shadow-sm py-3 rounded-0">
+        </div>
+
+        <!-- Milk Day 75 -->
+        <div class="col-lg-4">
+          <label class="form-label fw-bold">Milk after 75 Days (L)</label>
+          <input type="number" step="0.01" value="0.00" name="milk_day_75" class="form-control border-0 shadow-sm py-3 rounded-0">
+        </div>
+
+        <!-- Outward Date -->
+        <div class="col-lg-4">
+          <label class="form-label fw-bold">Outward Date</label>
+          <input type="date" name="outward_date" class="form-control border-0 shadow-sm py-3 rounded-0">
+        </div>
+
+        <!-- Sale Date -->
+        <div class="col-lg-4">
+          <label class="form-label fw-bold">Sale Date</label>
+          <input type="date" name="sale_date" class="form-control border-0 shadow-sm py-3 rounded-0">
+        </div>
+
+        <!-- Status Sold -->
+        <div class="col-lg-4">
+         <label class="form-label fw-bold">Status (Sold)</label>
+         <select name="sold" class="form-select border-0 shadow-sm py-3 rounded-0">
+           <option value="">Select Status</option>
+           <option value="Sold" {% if request.GET.sold == "Sold" %}selected{% endif %}>
+             Sold
+            </option>
+          </select>
+        </div>
+
+
+        <!-- Salvage Date -->
+        <div class="col-lg-4">
+          <label class="form-label fw-bold">Salvage Date</label>
+          <input type="date" name="salvage_date" class="form-control border-0 shadow-sm py-3 rounded-0">
+        </div>
+
+        <!-- Status Salvage -->
+        <div class="col-lg-4">
+          <label class="form-label fw-bold">Status (Salvage)</label>
+          <select name="salvage" class="form-select border-0 shadow-sm py-3 rounded-0">
+           <option value="">Select Status</option>
+            <option value="Salvage" {% if request.GET.salvage == "Salvage" %}selected{% endif %}>
+             Salvage
+             </option>
+         </select>
+        </div>
+
+
+      </div>
+
+      <div class="text-center mt-4">
+        <button class="btn btn-success px-4" type="submit">Add Inventory Record</button>
+        <a class="btn btn-primary px-4" href="{% url 'inventory_list' %}">Inventory List</a>
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+</section>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ======= Footer ======= -->
+<footer class="footer">
+  <div class="copyright">
+    © Copyright <strong>J N Roadlines LLP</strong> All Rights Reserved
+  </div>
+  <div class="credits">
+    Designed by <a href="#"><strong>JTECH VENTURES</strong></a>
+  </div>
+</footer>
+<!-- End Footer -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+  <i class="bi bi-arrow-up-short"></i>
+</a>
+
+</body>

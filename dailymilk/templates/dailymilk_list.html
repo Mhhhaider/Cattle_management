@@ -1,0 +1,154 @@
+{% include 'Dashboard/base.html' %}
+{% load static %}
+
+<body>
+  <main id="main" class="main">
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card bg-light">
+            <div class="card-body py-4">
+
+              <!-- Messages -->
+              {% if messages %}
+                <div class="container mt-3">
+                  {% for message in messages %}
+                    <div class="alert alert-info {{ message.tags }} alert-dismissible fade show">
+                      <h5 class="text-center">{{ message }}</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+
+              <section class="main-sec">
+                <div class="container">
+
+                  <!-- Header -->
+                  <div class="row form-div mb-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <h3>Milk Collection Entries</h3>
+                      {% comment %} <a href="{% url 'collection_add' %}" class="btn btn-success px-4">+ Add Entry</a> {% endcomment %}
+                      <a href="{% url 'collection_pdf' %}?from_date={{ request.GET.from_date }}&to_date={{ request.GET.to_date }}&farmer_name={{ request.GET.farmer_name }}" 
+                       class="btn btn-danger px-4" target="_blank">
+                       Download PDF
+                    </a>
+                    </div>
+                  </div>
+
+                  <!-- Filters -->
+                  <form method="get" class="row g-3 mb-4">
+
+                    <div class="col-md-3">
+                      <label class="form-label fw-bold">From Date</label>
+                      <input type="date" name="from_date" class="form-control"
+                             value="{{ request.GET.from_date }}">
+                    </div>
+
+                    <div class="col-md-3">
+                      <label class="form-label fw-bold">To Date</label>
+                      <input type="date" name="to_date" class="form-control"
+                             value="{{ request.GET.to_date }}">
+                    </div>
+
+                    <div class="col-md-2">
+                      <label class="form-label fw-bold">Delivery Person</label>
+                      <input type="text" name="farmer" class="form-control"
+                             placeholder="Enter customer name"
+                             value="{{ request.GET.farmer}}">
+                    </div>
+                    <div class="col-md-2">
+                      <label class="form-label fw-bold">Card No</label>
+                      <input type="text" name="cardno" class="form-control"
+                             placeholder="Enter card no"
+                             value="{{ request.GET.cardno }}">
+                    </div>
+
+                    <div class="col-md-2 d-flex align-items-end">
+                      <button type="submit" class="btn btn-sm btn-success px-4 me-2">Filter</button>
+                      <a href="{% url 'collection_list' %}" class="btn btn-sm btn-danger px-4">Clear</a>
+                    </div>
+
+                  </form>
+
+                  <!-- Summary -->
+                  <div class="mb-3">
+                      <strong>Total Quantity:</strong> {{ total_qty }} L |
+                      <strong>Total Amount:</strong> ₹{{ total_amount }}
+                  </div>
+
+                  <!-- Table -->
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-striped shadow-sm">
+                      <thead class="bg-dark text-white">
+                        <tr>
+                          <th>Card No</th>
+                          <th>Date</th>
+                          <th>Shift</th>
+                          <th>Delivery Person</th>
+                          <th>Qty (L)</th>
+                          {% comment %} <th>Fat</th> {% endcomment %}
+                          <th>Rate</th>
+                          <th>Type</th>
+                          <th>Payment</th>
+                          <th>Amount</th>
+                          <th class="text-center">Actions</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        {% for c in collections %}
+                          <tr>
+                            <td>{{ c.cardno }}</td>
+                            <td>{{ c.date }}</td>
+                            <td>{{ c.get_shift_display }}</td>
+                            <td>{{ c.farmer}}</td>
+                            <td>{{ c.quantity_ltr }}</td>
+                            {% comment %} <td>{{ c.fat }}</td> {% endcomment %}
+                            <td>{{ c.rate_per_ltr }}</td>
+                            
+                            <td>{{ c.type }}</td>
+                            <td>{{ c.payment }}</td>
+                            <td>{{ c.amount }}</td>
+
+                            <td class="text-center">
+
+                              <a href="#"
+                                 class="btn btn-primary btn-sm mx-1">
+                                <i class="bi bi-pencil-square"></i>
+                              </a>
+
+                              <a href="{% url 'collection_delete' c.id %}"
+                                 class="btn btn-danger btn-sm mx-1"
+                                 onclick="return confirm('Are you sure?');">
+                                <i class="bi bi-trash"></i>
+                              </a>
+
+                            </td>
+
+                          </tr>
+                        {% empty %}
+                          <tr>
+                            <td colspan="9" class="text-center">No entries found.</td>
+                          </tr>
+                        {% endfor %}
+                      </tbody>
+
+                    </table>
+                  </div>
+
+                </div>
+              </section>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+</body>

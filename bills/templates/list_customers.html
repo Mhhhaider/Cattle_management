@@ -1,0 +1,61 @@
+{% include 'Dashboard/base.html' %}
+{% load static %}
+
+<body>
+  <main id="main" class="main">
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <div class="card bg-light shadow-sm">
+            <div class="card-body py-4">
+
+              <section class="main-sec">
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                  <h3 class="fw-bold">Customer List</h3>
+                  <a href="{% url 'add_customer' %}" class="btn btn-primary px-4">Add Customer</a>
+                </div>
+
+                <div class="table-responsive">
+                  <table class="table table-bordered table-striped align-middle">
+                    <thead class="table-dark">
+                      <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for customer in customers %}
+                      <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ customer.name }}</td>
+                        <td>{{ customer.phone }}</td>
+                      </tr>
+                      {% empty %}
+                      <tr>
+                        <td colspan="3" class="text-center">No customers found.</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+
+              </section>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong>J N Roadlines LLP</strong> All Rights Reserved
+    </div>
+    <div class="credits">
+      Designed by <a href="#"><strong>JTECH VENTURES</strong></a>
+    </div>
+  </footer>
+</body>

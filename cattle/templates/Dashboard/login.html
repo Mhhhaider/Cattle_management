@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cattle Management System - Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body, html {
+      height: 100%;
+      width: 100%;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+      width: 100%;
+    }
+
+    /* Left side - login form */
+    .login-side {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #ffffff;
+      padding: 40px;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+      padding: 35px 40px;
+    }
+
+    .login-box h2 {
+      color: #2e7d32;
+      margin-bottom: 25px;
+      font-weight: 700;
+    }
+
+
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 10px 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+
+    .input-group input:focus {
+      border-color: #4caf50;
+      box-shadow: 0 0 5px rgba(76, 175, 80, 0.4);
+      outline: none;
+    }
+
+    .login-btn {
+      background: #4caf50;
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .login-btn:hover {
+      background: #388e3c;
+    }
+
+    .extra-links {
+      margin-top: 15px;
+      font-size: 13px;
+    }
+
+    .extra-links a {
+      color: #4caf50;
+      text-decoration: none;
+      margin: 0 5px;
+      transition: 0.3s;
+    }
+
+    .extra-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* Right side - image */
+    .image-side {
+      flex: 1;
+      background: url('https://media.istockphoto.com/id/1297005860/photo/raw-milk-being-poured-into-container.jpg?s=612x612&w=0&k=20&c=5Xumh49_zYs9GjLkGpZXM41tS17K8M-svN9jLMv0JpE=') center/cover no-repeat;
+    }
+
+    /* Responsive for mobile */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .image-side {
+        display:none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Left Side - Login Form -->
+    <div class="login-side">
+      <div class="login-box">
+        <h2><img 
+    src="{% static 'images/logo.webp' %}" 
+    alt="My image"
+    style="width:250px;"
+/>
+</h2>
+        <form action="{% url 'log-in' %}" method="POST">
+           {% csrf_token %}
+                {% if messages %}
+     {% for message in messages %}
+      <div class="alert alert-info {{ message.tags }} alert-dismissible fade show" role="alert">
+       <h6 class="text-center"> {{ message }}</h6>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+     {% endfor %}
+     
+{% endif %}
+          <div class="input-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" required>
+          </div>
+
+          <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+          </div>
+
+          <button type="submit" class="login-btn">Login</button>
+
+          <div class="extra-links">
+            <a href="#">Forgot Password?</a> | 
+            <a href="{% url 'register' %}">Register</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Right Side - Image -->
+    <div class="image-side"></div>
+  </div>
+</body>
+</html>

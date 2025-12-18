@@ -1,0 +1,61 @@
+
+
+
+<h2>Batch Inventory Records</h2>
+<table border="1" cellpadding="5">
+    <tr>
+        <th>Inward Date</th>
+        <th>Cattle</th>
+        <th>Batch No</th>
+        <th>Purchase Date</th>
+        <th>Conceiving Date</th>
+        <th>Result</th>
+        <th>Milk Day 0</th>
+        <th>Day 15</th>
+        <th>Day 30</th>
+        <th>Day 60</th>
+        <th>Day 75</th>
+        <th>Outward Date</th>
+        <th>Sale Date</th>
+        <th>Sale Status</th>
+        <th>Salvage Date</th>
+        <th>Salvage Status</th>
+    </tr>
+{% for r in records %}
+<tr 
+    {% if r.convincing_date <= today %} 
+        style="background-color:#f8d7da;"  
+    {% elif r.convincing_date <= today|add:'3' %} 
+        style="background-color:#fff3cd;"  
+    {% endif %}
+>
+<td>{{ r.inward_date }}</td>
+    <td>{{ r.cattle.name }}</td>
+    <td>
+        {{ r.batch_no }}
+        {% if r.convincing_date <= today %}
+            <strong style="color:red;">(Missed!)</strong>
+        {% elif r.convincing_date <= today|add:'3' %}
+            <strong style="color:orange;">(Expiring Soon)</strong>
+        {% endif %}
+    </td>
+    <td>{{ r.purchase_date }}</td>
+    <td>{{ r.convincing_date }}</td>
+    <td>{{ r.result }}</td>
+    <td>{{ r.milk_day_0 }}</td>
+    <td>{{ r.milk_day_15 }}</td>
+    <td>{{ r.milk_day_30 }}</td>
+    <td>{{ r.milk_day_60 }}</td>
+    <td>{{ r.milk_day_75 }}</td>
+    <td>{{ r.outward_date }}</td>
+    <td>{{ r.sale_date }}</td>
+    <td>{{ r.sold }}</td>
+    <td>{{ r.salvage_date }}</td>
+    <td>{{ r.salvage_date }}</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+<a href="{% url 'add_inventory' %}">Add New Record</a>

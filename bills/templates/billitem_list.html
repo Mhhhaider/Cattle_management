@@ -1,0 +1,83 @@
+<!-- billitem_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bill Items List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            padding: 20px;
+        }
+        h2 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .total-count {
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<h2>Bill Items List</h2>
+
+<form method="get" style="margin-bottom: 20px;">
+    <input type="text" name="bill_no" placeholder="Bill No"
+           value="{{ request.GET.bill_no }}">
+    
+    <input type="text" name="customer" placeholder="Customer Name"
+           value="{{ request.GET.customer }}">
+
+    <input type="date" name="date"
+           value="{{ request.GET.date }}">
+
+    <button type="submit" style="padding:5px 12px;">Filter</button>
+
+    <a href="{% url 'billitem_list' %}" style="margin-left:10px;">Clear</a>
+</form>
+
+    <div class="total-count">Total BillItems: {{ items|length }}</div>
+    <table>
+        <tr>
+            <th>Bill</th>
+            <th>Date</th>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Payment</th>
+            <th>Card No</th>
+            <th>Total Price</th>
+        </tr>
+        {% for item in items %}
+        <tr>
+            <td>{{ item.bill }}</td>
+            <td>{{ item.bill.date|date:"d-m-Y h:i A" }}</td>
+            <td>{{ item.item }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.payment }}</td>
+            <td>{{ item.cardno }}</td>
+            <td>{{ item.total_price|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</body>
+</html>

@@ -1,0 +1,112 @@
+{% include 'base3.html' %}
+{% load static %}
+
+<body>
+<main id="main" class="main">
+
+<section class="section">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card bg-light">
+        <div class="card-body py-4">
+
+<section class="main-sec">
+
+{% if messages %}
+  <div class="container mt-3">
+    {% for message in messages %}
+      <div class="alert alert-danger {{ message.tags }} alert-dismissible fade show" role="alert">
+        <h5 class="text-center">{{ message }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+<h3>OR Import Cattle via Excel</h3>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="excel_file" accept=".xlsx,.xls">
+    <button type="submit">Import Excel</button>
+</form>
+<div class="container">
+  <div class="row form-div">
+    <h3>Add Cattle</h3>
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <div class="row">
+
+        <!-- Batch -->
+        <div class="col-lg-3">
+          <label class="form-label fw-bold">Batch</label>
+          <select name="batch" class="form-control border-0 shadow-sm py-3 rounded-0" required>
+            <option value="">Select Batch</option>
+            {% for batch in batches %}
+              <option value="{{ batch.id }}">{{ batch.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Tag Name -->
+        <div class="col-lg-3">
+          <label class="form-label fw-bold">Tag Name</label>
+          <input type="text" name="name" class="form-control border-0 shadow-sm py-3 rounded-0" required>
+        </div>
+
+        <!-- Age -->
+        <div class="col-lg-3">
+          <label class="form-label fw-bold">Age</label>
+          <input type="number" name="age" class="form-control border-0 shadow-sm py-3 rounded-0" required>
+        </div>
+
+        <!-- Milk -->
+        <div class="col-lg-3">
+          <label class="form-label fw-bold">Milk (Ltr)</label>
+          <input type="text" name="breed" class="form-control border-0 shadow-sm py-3 rounded-0">
+        </div>
+
+      </div>
+           <!-- Health -->
+        <div class="col-lg-3">
+         <label class="form-label fw-bold">Health Status:</label>
+         <select class="form-control border-0 shadow-sm py-3 rounded-0" name="health_status" required>
+          <option value="Healthy">Healthy</option>
+          <option value="Sick">Sick</option>
+         </select>
+        </div>
+
+      <div class="text-center mt-3">
+        <button class="btn btn-success px-4" type="submit">Add Cattle</button>
+        <a class="btn btn-primary px-4" href="{% url 'cattle_list' %}">Cattle List</a>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+</section>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+
+<footer class="footer">
+  <div class="copyright">
+    © Copyright <strong>J N Roadlines LLP</strong> All Rights Reserved
+  </div>
+  <div class="credits">
+    Designed by <strong>JTECH VENTURES</strong>
+  </div>
+</footer>
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+  <i class="bi bi-arrow-up-short"></i>
+</a>
+
+</body>

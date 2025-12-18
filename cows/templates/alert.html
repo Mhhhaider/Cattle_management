@@ -1,0 +1,97 @@
+<!-- @format -->
+
+{% include 'base3.html' %}
+{% load static %}
+
+<body>
+  <main id="main" class="main">
+    <div class="pagetitle"></div>
+
+    <section class="section dashboard">
+      <div class="col-lg-12">
+        <div class="row">
+
+          <div class="col-md-12 mb-4">
+            <div class="card border-danger shadow-sm">
+              <div class="card-header bg-danger text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                  Missed & Expired Conceiving Dates After <strong class="text-warning">3 Days</strong>
+                </h5>
+                <button class="btn btn-success btn-sm" id="exportBtn">Export to Excel</button>
+              </div>
+
+              <div class="p-3 table-responsive">
+                <table class="table table-bordered table-striped" id="conceivingTable">
+                  <thead class="table-dark">
+                    <tr>
+                      <th>Batch</th>
+                      <th>Name</th>
+                      <th>Conceiving Date</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% if missed_convincing %}
+                      {% for record in missed_convincing %}
+                        <tr class="table-danger">
+                          <td>{{ record.batch }}</td>
+                          <td>{{ record.name }}</td>
+                          <td>{{ record.convincing_date }}</td>
+                          <td><span class="badge bg-danger text-light">Missed</span></td>
+                        </tr>
+                      {% endfor %}
+                    {% endif %}
+
+                    {% if near_expiry_convincing %}
+                      {% for record in near_expiry_convincing %}
+                        <tr class="table-warning">
+                          <td>{{ record.batch }}</td>
+                          <td>{{ record.name }}</td>
+                          <td>{{ record.convincing_date }}</td>
+                          <td><span class="badge bg-warning text-dark">Near Expiry</span></td>
+                        </tr>
+                      {% endfor %}
+                    {% endif %}
+
+                    {% if not missed_convincing and not near_expiry_convincing %}
+                      <tr>
+                        <td colspan="4" class="text-center">No missed or near expiry conceiving dates.</td>
+                      </tr>
+                    {% endif %}
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong>. All Rights Reserved</strong>
+    </div>
+    <div class="credits">
+      Designed by <a href="#"><strong> JTECH VENTURES</strong></a>
+    </div>
+  </footer>
+  <!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+    <i class="bi bi-arrow-up-short"></i>
+  </a>
+
+  <!-- Vendor JS Files -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script>
+    document.getElementById('exportBtn').addEventListener('click', function() {
+      let table = document.getElementById('conceivingTable');
+      let wb = XLSX.utils.table_to_book(table, {sheet: "Conceiving Dates"});
+      XLSX.writeFile(wb, 'Conceiving_Dates.xlsx');
+    });
+  </script>
+</body>

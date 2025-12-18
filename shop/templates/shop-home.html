@@ -1,0 +1,134 @@
+
+{% include 'Dashboard/base2.html' %}
+{% load static %}
+  <body>
+   
+    <main id="main" class="main">
+      <div class="pagetitle">
+        {% comment %} <h1>Dashboard</h1> {% endcomment %}
+        {% comment %} <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">Dashboard</li>
+          </ol>
+        </nav> {% endcomment %}
+      </div>
+      <!-- End Page Title -->
+
+      <section class="section dashboard">
+          <!-- Left side columns -->
+          <div class="col-lg-12">
+            <div class="row">
+              <!-- Customer-->
+              <div class="col-lg-3 col-md-12">
+               <div class="card info-card customers-card">
+               <a class="icon" href="{% url "customer-add" %}">
+               <div class="card-body py-3 d-flex flex-column justify-content-center align-items-center text-center">
+               <div class="card-icon rounded-circle d-flex align-items-center justify-content-center mb-2">
+                 <img src="{% static '/images/accountant.png' %}" width="50"/>
+               </div>
+               <h5 class="card-title mb-1 text-success">Customer</h5>
+               <h6 class="text-success">0</h6>
+               </div>
+              </a>
+             </div>
+            </div>
+              <!--End Card-->
+              <!-- Milk Supply -->
+            {% comment %} <div class="col-lg-3 col-md-12">
+              <div class="card info-card customers-card">
+              <a class="icon" href="{% url "milk:entry_add" %}">
+              <div class="card-body py-3 d-flex flex-column justify-content-center align-items-center text-center">
+               <div class="card-icon rounded-circle d-flex align-items-center justify-content-center mb-2">
+                 <img src="{% static '/images/milk_supply.png' %}" width="70"/>
+               </div>
+               <h5 class="card-title mb-1 text-success">Milk Supply</h5>
+               <h6 class="text-success">0</h6>
+               </div>
+              </a>
+             </div>
+            </div> {% endcomment %}
+
+              <!--End Card-->
+             
+            
+              <!--End Card-->
+                 <!-- Milk Order -->
+              <div class="col-lg-3 col-md-12">
+               <div class="card info-card customers-card">
+               <a class="icon" href="{% url "collection_add" %}">
+               <div class="card-body py-3 d-flex flex-column justify-content-center align-items-center text-center">
+               <div class="card-icon rounded-circle d-flex align-items-center justify-content-center mb-2">
+                 <img src="{% static '/images/milkcontainer.png' %}" width="50"/>
+               </div>
+               <h5 class="card-title mb-1 text-success">Daily Milk <br> (Morning/Evening)</h5>
+               {% comment %} <h6 class="text-success">0</h6> {% endcomment %}
+               </div>
+              </a>
+             </div>
+            </div>
+              <!--End Card-->
+               
+
+             <!-- Stock -->
+              <div class="col-lg-3 col-md-12">
+               <div class="card info-card customers-card">
+               <a class="icon" href="{% url "add_item" %}">
+               <div class="card-body py-3 d-flex flex-column justify-content-center align-items-center text-center">
+               <div class="card-icon rounded-circle d-flex align-items-center justify-content-center mb-2">
+                 <img src="{% static '/images/inventory.png' %}" width="50"/>
+               </div>
+               <h5 class="card-title mb-1 text-success">Stock</h5>
+               <h6 class="text-success">0</h6>
+               </div>
+              </a>
+             </div>
+            </div>
+             <!-- Billing Order -->
+               <div class="col-lg-3 col-md-12">
+               <div class="card info-card customers-card">
+               <a class="icon" href="{% url "create_bill" %}">
+               <div class="card-body py-3 d-flex flex-column justify-content-center align-items-center text-center">
+               <div class="card-icon rounded-circle d-flex align-items-center justify-content-center mb-2">
+                 <img src="{% static '/images/transaction.png' %}" width="50"/>
+               </div>
+               <h5 class="card-title mb-1 text-success">Bill Managment</h5>
+               <h6 class="text-success">0</h6>
+               </div>
+              </a>
+             </div>
+            </div> 
+          
+      </div>
+  </section>
+<section class="section dashboard sec-2">
+ 
+</section>
+
+
+
+    </main>
+    <!-- End #main -->
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer" class="footer">
+      <div class="copyright">
+        &copy; Copyright <strong>. All Rights Reserved</strong>
+      </div>
+      <div class="credits">
+        Designed by <a href="#"><strong> JTECH VENTURES</strong
+        ></a>
+      </div>
+    </footer>
+    <!-- End Footer -->
+
+    <a
+      href="#"
+      class="back-to-top d-flex align-items-center justify-content-center"
+      ><i class="bi bi-arrow-up-short"></i
+    ></a>
+
+    <!-- Vendor JS Files -->
+
+</body>
+

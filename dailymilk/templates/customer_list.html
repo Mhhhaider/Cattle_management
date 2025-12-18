@@ -1,0 +1,134 @@
+{% include 'Dashboard/base.html' %}
+{% load static %}
+
+<body>
+  <main id="main" class="main">
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card bg-light">
+            <div class="card-body py-4">
+
+              <!-- Messages -->
+              {% if messages %}
+                <div class="container mt-3">
+                  {% for message in messages %}
+                    <div class="alert alert-info {{ message.tags }} alert-dismissible fade show">
+                      <h5 class="text-center">{{ message }}</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+
+              <section class="main-sec">
+                <div class="container">
+
+                  <div class="row form-div mb-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <h3>Customer List</h3>
+                      <a href="#" class="btn btn-success px-4">Add Customer</a>
+                    </div>
+                  </div>
+
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-striped shadow-sm">
+                      <thead class="bg-dark text-white">
+                        <tr>
+                          <th>Card No</th>
+                          <th>Name</th>
+                          <th>Phone</th>
+                          <th>Address</th>
+                          <th class="text-center">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+
+                        {% for c in customers %}
+                          <tr>
+                            <td>{{ c.cardno }}</td>
+                            <td>{{ c.name }}</td>
+                            <td>{{ c.phone }}</td>
+                            <td>{{ c.address }}</td>
+
+                            <td class="text-center">
+                              <a href="#"
+                                 class="btn btn-primary btn-sm mx-1">
+                                <i class="bi bi-pencil-square"></i>
+                              </a>
+
+                              <a href="{% url "customer-delete" c.id %}"
+                                 class="btn btn-danger btn-sm mx-1"
+                                 onclick="return confirm('Are you sure?');">
+                                <i class="bi bi-trash"></i>
+                              </a>
+                            </td>
+                          </tr>
+                        {% empty %}
+                          <tr>
+                            <td colspan="4" class="text-center">No customers found.</td>
+                          </tr>
+                        {% endfor %}
+
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <!-- Pagination -->
+                  {% if page_obj.has_other_pages %}
+                  <nav>
+                    <ul class="pagination justify-content-center">
+
+                      {% if page_obj.has_previous %}
+                        <li class="page-item">
+                          <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                            <i class="bi bi-chevron-left"></i>
+                          </a>
+                        </li>
+                      {% else %}
+                        <li class="page-item disabled">
+                          <span class="page-link"><i class="bi bi-chevron-left"></i></span>
+                        </li>
+                      {% endif %}
+
+                      {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                          <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                          </li>
+                        {% else %}
+                          <li class="page-item">
+                            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                          </li>
+                        {% endif %}
+                      {% endfor %}
+
+                      {% if page_obj.has_next %}
+                        <li class="page-item">
+                          <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+                            <i class="bi bi-chevron-right"></i>
+                          </a>
+                        </li>
+                      {% else %}
+                        <li class="page-item disabled">
+                          <span class="page-link"><i class="bi bi-chevron-right"></i></span>
+                        </li>
+                      {% endif %}
+
+                    </ul>
+                  </nav>
+                  {% endif %}
+
+                </div>
+              </section>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+</body>

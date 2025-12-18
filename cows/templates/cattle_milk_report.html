@@ -1,0 +1,16 @@
+<h2>Cattle Milk Report</h2>
+<table border="1">
+    <tr>
+        <th>Cattle Name</th>
+        <th>Batch</th>
+        <th>Total Milk (Liters)</th>
+    </tr>
+    {% for item in milk_report %}
+    <tr>
+        <td>{{ item.name }}</td>
+        <td>{{ item.batch }}</td>
+        <td>{{ item.total_milk }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="{% url 'cattle_list' %}">Back to Cattle List</a>

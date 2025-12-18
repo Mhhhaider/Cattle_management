@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cattle Management System - Registration</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      {% comment %} background: linear-gradient(135deg, #43a047, #81c784); {% endcomment %}
+      background:url('https://media.istockphoto.com/id/2128617733/video/closeup-of-female-farmer-pouring-raw-milk-into-container-on-field-near-cattle-in-village-at.jpg?s=640x640&k=20&c=6QjUuj3bZxorHoavu-JUJXux3fn03_rB4UB2Rn89d0E=')center/cover no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .register-container {
+      background: #ffffff69;
+      padding: 35px 40px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      width: 500px;
+    }
+
+    .register-container h2 {
+      text-align: center;
+      color: #2e7d32;
+      margin-bottom: 25px;
+      font-weight: 700;
+    }
+
+    .input-group {
+      margin-bottom: 18px;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 14px;
+      color: #333;
+      margin-bottom: 6px;
+    }
+
+    .input-group input, 
+    .input-group select {
+      width: 100%;
+      padding: 10px 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      transition: 0.3s;
+      font-size: 14px;
+    }
+
+    .input-group input:focus, 
+    .input-group select:focus {
+      border-color: #43a047;
+      box-shadow: 0 0 5px rgba(67, 160, 71, 0.4);
+      outline: none;
+    }
+
+    .register-btn {
+      background: #43a047;
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 10px;
+    }
+
+    .register-btn:hover {
+      background: #2e7d32;
+    }
+
+    .extra-links {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 13px;
+    }
+
+    .extra-links a {
+      color: #43a047;
+      text-decoration: none;
+    }
+
+    .extra-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="register-container">
+    <h2>Register Account</h2>
+    <form action="#" method="POST">
+      <div class="input-group">
+        <label for="fullname">Full Name</label>
+        <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" required>
+      </div>
+
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+      </div>
+
+      <div class="input-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="Choose a username" required>
+      </div>
+
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Create a password" required>
+      </div>
+
+      <div class="input-group">
+        <label for="role">Role</label>
+        <select id="role" name="role" required>
+          <option value="">Select role</option>
+          <option value="farmer">Farmer</option>
+          <option value="veterinarian">Veterinarian</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+
+      <button type="submit" class="register-btn">Register</button>
+
+      <div class="extra-links">
+        Already have an account? <a href="login.html">Login</a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

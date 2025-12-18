@@ -1,0 +1,138 @@
+<!-- Bill Form (Styled Like Add Customer) -->
+
+{% include 'Dashboard/base.html' %}
+{% load static %}
+<body>
+  <main id="main" class="main">
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card bg-light">
+            <div class="card-body py-4">
+              <section class="main-sec">
+                {% if messages %}
+                  <div class="container mt-3">
+                    {% for message in messages %}
+                      <div class="alert alert-danger {{ message.tags }} alert-dismissible fade show" role="alert">
+                        <h5 class="text-center">{{ message }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+
+                <div class="container">
+                  <div class="row form-div">
+                    <h3 class="text-center">Generate Bill</h3>
+                      <div class="text-end mb-3">
+                <a href="{% url 'add_customer' %}" 
+                class="btn btn-primary px-4">
+                Add Customer
+                </a>
+               </div>
+                    <form method="post">
+                      {% csrf_token %}
+                      <div class="row">
+                        <!-- Customer Dropdown -->
+                        <div class="col-lg-4">
+                          <label class="form-label fw-bold">Select Customer</label>
+                          <select name="customer" class="form-control border-0 shadow-sm py-3 rounded-0" required>
+                            <option value="">Choose Customer</option>
+                            {% for customer in customers %}
+                              <option value="{{ customer.id }}">{{ customer.name }}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                        <!-- Card No Dropdown -->
+                        <div class="col-lg-4">
+                          <label class="form-label fw-bold">Card No</label>
+                          <select name="cardno" class="form-control border-0 shadow-sm py-3 rounded-0">
+                            <option value="">select card no</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="3">4</option>
+                          </select>
+                        </div>
+                          <!-- Payment Dropdown -->
+                        <div class="col-lg-4">
+                          <label class="form-label fw-bold">Payment Type</label>
+                          <select name="payment" class="form-control border-0 shadow-sm py-3 rounded-0">
+                             <option value="">select type</option>
+                            <option value="cash">Cash</option>
+                            <option value="upi">UPI</option>
+                            <option value="card">Card</option>
+                          </select>
+                        </div>
+
+                      </div>
+
+                      <h5 class="mt-4 mb-2 fw-bold">Select Items</h5>
+
+                      <div class="row">
+                        {% for item in items %}
+                        <div class="col-lg-4 mb-3">
+                          <div class="p-3 bg-white shadow-sm rounded">
+
+                            <input type="checkbox" 
+                                   name="items" 
+                                   value="{{ item.id }}" 
+                                   class="form-check-input me-2">
+
+                            <label class="form-check-label fw-bold">
+                              {{ item.name }}
+                            </label>
+
+                            <p class="mb-1">Price: ₹{{ item.price }} per {{ item.unit }}</p>
+
+                            <label>Quantity</label>
+                            <div class="input-group">
+                              <input type="number"
+                                     name="quantities_{{ item.id }}"
+                                     value="1" 
+                                     min="0.01"
+                                     step="0.01"
+                                     class="form-control border-0 shadow-sm py-2 rounded-0"
+                                     placeholder="Quantity in {{ item.unit }}">
+                              <span class="input-group-text">{{ item.unit }}</span>
+                            </div>
+
+                          </div>
+                        </div>
+                        {% endfor %}
+                      </div>
+
+                      <div class="text-center mt-3">
+                        <button class="btn btn-success px-4" type="submit">Generate Bill</button>
+                        <a class="btn btn-info px-4 text-white" href="{% url "billitem_list" %}">View Bill</a>
+                      </div>
+
+                    </form>
+
+                  </div>
+                </div>
+
+              </section>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong>J N Roadlines LLP</strong> All Rights Reserved
+    </div>
+    <div class="credits">
+      Designed by <a href="#"><strong>JTECH VENTURES</strong></a>
+    </div>
+  </footer>
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+    <i class="bi bi-arrow-up-short"></i>
+  </a>
+
+</body>
