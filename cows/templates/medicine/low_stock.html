@@ -1,0 +1,35 @@
+
+{% block content %}
+
+<div class="container mt-4">
+  <h4 class="mb-3 text-danger">⚠️ Low Stock Medicines</h4>
+
+  <table class="table table-bordered table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th>#</th>
+        <th>Medicine</th>
+        <th>Batch</th>
+        <th>Available Qty</th>
+        <th>Expiry Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for m in low_stock %}
+      <tr class="table-danger">
+        <td>{{ forloop.counter }}</td>
+        <td>{{ m.medicine.name }}</td>
+        <td>{{ m.batch_no }}</td>
+        <td>{{ m.quantity_available }}</td>
+        <td>{{ m.expiry_date }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="5" class="text-center">No low stock medicine</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

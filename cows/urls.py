@@ -42,6 +42,16 @@ urlpatterns = [
     path('update-cattle/<int:id>/', views.update_cattle, name='update_cattle'),
 
 
+
+
+    path('medicine/add/', add_medicine, name='add_medicine'),
+    path('medicine/inventory/', add_medicine_inventory, name='add_medicine_inventory'),
+    path('medicine/list/', medicine_inventory_list, name='medicine_list'),
+    path('medicine/usage/', medicine_usage, name='medicine_usage'),
+    path('medicine/low-stock/', medicine_dashboard, name='medicien_dashboard'),
+    path('medicine/history/<int:cattle_id>/', cattle_medicine_history, name='cattle_medicine_history'),
+
+
     
 
 

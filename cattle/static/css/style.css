@@ -232,7 +232,7 @@ h6 {
   padding: 20px 0 15px 0;
   font-size: 16px;
   font-weight: 500;
-  color: #012970;
+  color: #000;
   font-family: "Poppins", sans-serif;
   text-transform:uppercase;
 }
@@ -802,7 +802,7 @@ h6 {
 
 .dashboard .info-card h6 {
   font-size: 28px;
-  color: #012970;
+  color: #000;
   font-weight: 700;
   margin: 0;
   padding: 0;

@@ -23,10 +23,10 @@
               <h2 class="card-title mb-4">Cattle List</h2>
               <form method="POST" action="{% url 'add_cattle' %}" enctype="multipart/form-data">
                      {% csrf_token %}
-                      <div class="col-md-2 d-flex align-items-center">
-                        <label for="excel_file" class="btn btn-secondary btn-sm">Choose File</label>
+                      <div class="col-md-2 d-flex align-items-center float-end">
+                        <label for="excel_file" class="btn btn-success btn-sm">Choose File</label>
                         <input type="file" id="excel_file" name="excel_file" accept=".xlsx,.xls" style="display:none;">
-                        <button type="submit" class="btn btn-primary btn-sm px-2">Upload</button>
+                        <button type="submit" class="btn btn-secondary btn-sm px-2">Upload</button>
                     </div>
 
                   </form>
@@ -410,10 +410,15 @@
   </div>
  </div>
 
-
+<a href="{% url 'cattle_medicine_history' cattle.id %}"
+   class="text-primary">
+   <i class="bi bi-capsule fs-5"></i>
+</a>
   <a href="{% url 'update_cattle' cattle.id %}" class="text-success mx-1">
     <i class="bi bi-pencil-square fs-5"></i>
 </a>
+
+
 
 
   {% comment %} <a href="#" class="text-danger mx-1" onclick="return confirmDelete()"> <i class="bi bi-trash3-fill fs-5"></i></a> {% endcomment %}

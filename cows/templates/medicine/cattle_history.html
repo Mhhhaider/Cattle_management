@@ -1,0 +1,35 @@
+
+{% block content %}
+
+<div class="container mt-4">
+  <h4 class="mb-3">🐄 {{ cattle.name }} – Medicine History</h4>
+
+  <table class="table table-bordered table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th>#</th>
+        <th>Date</th>
+        <th>Medicine</th>
+        <th>Quantity</th>
+        <th>Reason</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for h in history %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ h.usage_date }}</td>
+        <td>{{ h.medicine.name }}</td>
+        <td>{{ h.quantity_used }}</td>
+        <td>{{ h.reason }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="5" class="text-center">No medicine record</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

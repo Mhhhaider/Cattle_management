@@ -146,3 +146,47 @@ class Income(models.Model):
         return f"{self.source} - {self.amount} on {self.income_date}"
 
 
+class Medicine(models.Model):
+    name = models.CharField(max_length=100)
+    unit = models.CharField(max_length=20, default='ml')  # ml / tablet / dose
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+class MedicineInventory(models.Model):
+    medicine = models.ForeignKey(Medicine, on_delete=models.CASCADE)
+    STATUS_CHOICES = [
+        ('Vaccine', 'Vaccine'),
+        ('Antibiotic', 'Antibiotic'),
+        ('Antiseptic', 'Antiseptic'),
+        ('Vitamin', 'Vitamin'),
+    ]
+    category = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Antibiotic')
+
+    quantity_in = models.DecimalField(max_digits=10, decimal_places=2)
+    quantity_available = models.DecimalField(max_digits=10, decimal_places=2)
+
+    purchase_date = models.DateField()
+    expiry_date = models.DateField()
+    supplier = models.CharField(max_length=100, blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.medicine.name}"
+
+
+class MedicineUsage(models.Model):
+    cattle = models.ForeignKey(Cattle, on_delete=models.CASCADE)
+    batch = models.ForeignKey(Batch, on_delete=models.CASCADE)
+    medicine = models.ForeignKey(Medicine, on_delete=models.CASCADE)
+    inventory = models.ForeignKey(MedicineInventory, on_delete=models.CASCADE)
+
+    usage_date = models.DateField()
+    quantity_used = models.DecimalField(max_digits=10, decimal_places=2)
+    reason = models.CharField(max_length=200, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.cattle.name} - {self.medicine.name}"

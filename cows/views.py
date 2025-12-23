@@ -18,6 +18,9 @@ import calendar
 #     return render(request,'home-page.html',context)
 
 
+#============================================
+# Dashboard page
+#============================================
 @login_required(login_url="log-in")
 def cow_home(request):
     total_cattles = Cattle.objects.count()
@@ -30,13 +33,13 @@ def cow_home(request):
     # 1️⃣ Missed / expired convincing dates
     missed_convincing = Cattle.objects.filter(
         convincing_date__lte=today
-    ).exclude(convincing_date=None).order_by('convincing_date')
+    ).exclude(convincing_date=None).order_by('convincing_date')[:2]
 
     # 2️⃣ Near expiry convincing dates (next 3 days)
     near_expiry_convincing = Cattle.objects.filter(
         convincing_date__gt=today,
         convincing_date__lte=today + timedelta(days=3)
-    ).order_by('convincing_date')
+    ).order_by('convincing_date')[:2]
     data = {
         'fresh': Cattle.objects.filter(breeding='Fresh').count(),
         'pregnant': Cattle.objects.filter(breeding='Pregnant').count(),
@@ -684,7 +687,9 @@ def report(request):
 
 
 
-
+#============================================
+# Alert Page
+#============================================
 def alert(request):
     today = date.today()
 
@@ -707,7 +712,9 @@ def alert(request):
     return render(request,'alert.html',context)
 
 
-
+#============================================
+# Update Cattle 
+#============================================
 def update_cattle(request, id):
     cattle = Cattle.objects.get(id=id)
     batches = Batch.objects.all()
@@ -750,3 +757,159 @@ def update_cattle(request, id):
         'breeds': breeds,
         'breeding_states': breeding_states
     })
+
+
+
+
+
+#============================================
+# Add Medicine
+#============================================
+def add_medicine(request):
+    if request.method == 'POST':
+        Medicine.objects.create(
+            name=request.POST['name'],
+            unit=request.POST.get('unit'),
+            description=request.POST.get('description')
+        )
+        messages.success(request, "Medicine added successfully")
+        return redirect('add_medicine_inventory')
+
+    return render(request, 'medicine/add_medicine.html')
+
+
+
+
+#============================================
+# Add Medicine Inventory
+#============================================
+def add_medicine_inventory(request):
+    medicines = Medicine.objects.all()
+
+    if request.method == 'POST':
+        MedicineInventory.objects.create(
+            medicine_id=request.POST['medicine'],
+            category=request.POST['category'],
+            quantity_in=request.POST['quantity'],
+            quantity_available=request.POST['quantity'],  # 👈 stock add
+            purchase_date=request.POST['purchase_date'],
+            expiry_date=request.POST['expiry_date'],
+            supplier=request.POST['supplier']
+        )
+
+        messages.success(request, "Medicine stock added")
+        return redirect('add_medicine_inventory')
+
+    return render(request, 'medicine/add_inventory.html', {
+        'medicines': medicines
+    })
+
+
+#============================================
+# Medicine Usage
+#============================================
+def medicine_usage(request):
+    inventories = MedicineInventory.objects.filter(quantity_available__gt=0)
+    cattles = Cattle.objects.all()
+    batches = Batch.objects.all()
+
+    if request.method == 'POST':
+        inventory = MedicineInventory.objects.select_for_update().get(
+            id=request.POST['inventory']
+        )
+
+        qty = Decimal(request.POST['quantity_used'])  # ✅ FIX HERE
+
+        if inventory.quantity_available < qty:
+            messages.error(request, "Not enough stock")
+            return redirect('medicine_usage')
+
+        inventory.quantity_available -= qty  # ✅ Decimal - Decimal
+        inventory.save()
+
+        MedicineUsage.objects.create(
+            cattle_id=request.POST['cattle'],
+            batch_id=request.POST['batch'],
+            medicine=inventory.medicine,
+            inventory=inventory,
+            usage_date=request.POST['usage_date'],
+            quantity_used=qty,
+            reason=request.POST['reason']
+        )
+
+        messages.success(request, "Medicine issued")
+        return redirect('medicine_usage')
+
+    return render(request, 'medicine/medicine_usage.html', {
+        'inventories': inventories,
+        'cattles': cattles,
+        'batches': batches
+    })
+
+
+#============================================
+# Medicine Low Stock
+#============================================
+def low_stock(request):
+    low_stock = MedicineInventory.objects.filter(quantity_available__lte=10)
+
+    return render(request, 'medicine/low_stock.html', {
+        'low_stock': low_stock
+    })
+
+
+#============================================
+#Cattle Medicine History
+#============================================
+def cattle_medicine_history(request, cattle_id):
+    cattle = Cattle.objects.get(id=cattle_id)
+    history = MedicineUsage.objects.filter(cattle=cattle)
+
+    return render(request, 'medicine/cattle_history.html', {
+        'cattle': cattle,
+        'history': history
+    })
+
+
+#============================================
+# Medicine List
+#============================================
+def medicine_inventory_list(request):
+    inventories = MedicineInventory.objects.select_related('medicine')
+    return render(request, 'medicine/inventory_list.html', {
+        'inventories': inventories,
+        'today': date.today()
+    })
+
+
+
+
+from django.utils.timezone import now
+
+def medicine_dashboard(request):
+    today = now().date()
+
+    total_medicines = Medicine.objects.count()
+    total_stock = MedicineInventory.objects.aggregate(
+        total=Sum('quantity_available')
+    )['total'] or 0
+
+    low_stock_count = MedicineInventory.objects.filter(
+        quantity_available__lte=10
+    ).count()
+
+    expired_count = MedicineInventory.objects.filter(
+        expiry_date__lt=today
+    ).count()
+
+    inventories = MedicineInventory.objects.select_related('medicine')
+
+    context = {
+        'total_medicines': total_medicines,
+        'total_stock': total_stock,
+        'low_stock_count': low_stock_count,
+        'expired_count': expired_count,
+        'inventories': inventories,
+        'today': today,
+    }
+    return render(request, 'medicine/medicien_dashboard.html', context)

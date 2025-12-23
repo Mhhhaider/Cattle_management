@@ -1,0 +1,134 @@
+{% include 'base3.html' %}
+{% load static %}
+
+<body>
+<main id="main" class="main">
+
+<section class="section">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card bg-light">
+        <div class="card-body py-4">
+
+<section class="main-sec">
+
+{% if messages %}
+  <div class="container mt-3">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        <h5 class="text-center">{{ message }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<div class="container">
+  <div class="row form-div">
+    <h3 class="mb-4">💊 Medicine Usage</h3>
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <div class="row">
+
+        <!-- Cattle -->
+        <div class="col-lg-3 mb-3">
+          <label class="form-label fw-bold">Cattle</label>
+          <select name="cattle"
+            class="form-control border-0 shadow-sm py-3 rounded-0" required>
+            <option value="">Select Cattle</option>
+            {% for c in cattles %}
+              <option value="{{ c.id }}">
+                {{ c.name }} ({{ c.batch }})
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Batch -->
+        <div class="col-lg-3 mb-3">
+          <label class="form-label fw-bold">Batch</label>
+          <select name="batch"
+            class="form-control border-0 shadow-sm py-3 rounded-0" required>
+            <option value="">Select Batch</option>
+            {% for b in batches %}
+              <option value="{{ b.id }}">{{ b.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Medicine Inventory -->
+        <div class="col-lg-3 mb-3">
+          <label class="form-label fw-bold">Medicine (Stock)</label>
+          <select name="inventory"
+            class="form-control border-0 shadow-sm py-3 rounded-0" required>
+            <option value="">Select Medicine</option>
+            {% for i in inventories %}
+              <option value="{{ i.id }}">
+                {{ i.medicine.name }} | Stock: {{ i.quantity_available }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Quantity Used -->
+        <div class="col-lg-3 mb-3">
+          <label class="form-label fw-bold">Quantity Used</label>
+          <input type="number" step="0.01" name="quantity_used"
+            class="form-control border-0 shadow-sm py-3 rounded-0"
+            required>
+        </div>
+
+        <!-- Usage Date -->
+        <div class="col-lg-3 mb-3">
+          <label class="form-label fw-bold">Usage Date</label>
+          <input type="date" name="usage_date"
+            class="form-control border-0 shadow-sm py-3 rounded-0"
+            required>
+        </div>
+
+        <!-- Reason -->
+        <div class="col-lg-4 mb-3">
+          <label class="form-label fw-bold">Reason</label>
+          <input type="text" name="reason"
+            class="form-control border-0 shadow-sm py-3 rounded-0"
+            placeholder="Treatment / Vaccination">
+        </div>
+
+      </div>
+
+      <div class="text-center mt-4">
+        <button class="btn btn-primary px-4" type="submit">
+          💉 Issue Medicine
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+</section>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="copyright">
+    © Copyright <strong>J N Roadlines LLP</strong> All Rights Reserved
+  </div>
+  <div class="credits">
+    Designed by <strong>JTECH VENTURES</strong>
+  </div>
+</footer>
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+  <i class="bi bi-arrow-up-short"></i>
+</a>
+
+</body>
